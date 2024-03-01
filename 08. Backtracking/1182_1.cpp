@@ -5,21 +5,17 @@ int N, S;
 int arr[20];
 int cases = 0;
 
-// n개 중에서 k개 뽑기
-void makeCombination(int n, int k, int size, int current, int start)
+void addSequences(int idx, int current)
 {
-    if (size == k)
+    if (idx == N)
     {
         if (current == S)
             cases++;
         return;
     }
 
-    for (int i = start; i < N; i++)
-    {
-        makeCombination(n, k, size + 1, current + arr[i], i + 1);
-    }
-
+    addSequences(idx + 1, current);
+    addSequences(idx + 1, current + arr[idx]);
 }
 
 int main() 
@@ -30,10 +26,9 @@ int main()
     for (int i = 0; i < N; i++)
         cin >> arr[i];
 
-    for (int num = 1; num <= N; num++)
-    {
-        makeCombination(N, num, 0, 0, 0);
-    }
-
+    addSequences(0, 0);
+    // 공집합 제외
+    if (S == 0) 
+        cases--;
     cout << cases;
 }
